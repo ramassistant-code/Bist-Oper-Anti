@@ -59,20 +59,17 @@ export interface CreateDirectSaleInput {
 }
 
 export async function createDirectSale(input: CreateDirectSaleInput) {
-  const existingDeals = await db
-    .select({ dealNumber: deals.dealNumber })
-    .from(deals)
-    .orderBy(desc(deals.createdAt))
-    .limit(1);
-
-  let nextNum = 1026;
-  if (existingDeals.length > 0 && existingDeals[0].dealNumber.startsWith("D-")) {
-    const parsed = parseInt(existingDeals[0].dealNumber.replace("D-", ""), 10);
-    if (!isNaN(parsed)) {
-      nextNum = parsed + 1;
+  const allDeals = await db.select({ dealNumber: deals.dealNumber }).from(deals);
+  let maxNum = 1000;
+  for (const d of allDeals) {
+    if (d.dealNumber && d.dealNumber.startsWith("D-")) {
+      const parsed = parseInt(d.dealNumber.replace("D-", ""), 10);
+      if (!isNaN(parsed) && parsed > maxNum) {
+        maxNum = parsed;
+      }
     }
   }
-
+  const nextNum = maxNum + 1;
   const dealNumber = `D-${nextNum}`;
   const dealId = `deal-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const now = new Date().toISOString();

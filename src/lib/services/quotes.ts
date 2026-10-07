@@ -59,22 +59,37 @@ export interface CreateQuoteInput {
 }
 
 export async function createQuote(input: CreateQuoteInput) {
-  // Generate quote number like Q-1049
-  const existingQuotes = await db.select({ quoteNumber: quotes.quoteNumber }).from(quotes).orderBy(desc(quotes.createdAt)).limit(1);
-  let nextNum = 1001;
-  if (existingQuotes.length > 0 && existingQuotes[0].quoteNumber.startsWith("Q-")) {
-    const parsed = parseInt(existingQuotes[0].quoteNumber.replace("Q-", ""), 10);
-    if (!isNaN(parsed)) {
-      nextNum = parsed + 1;
+  // Generate quote number like Q-1002 using max existing number
+  const allQuotes = await db.select({ quoteNumber: quotes.quoteNumber }).from(quotes);
+  let maxNum = 1000;
+  for (const q of allQuotes) {
+    if (q.quoteNumber && q.quoteNumber.startsWith("Q-")) {
+      const parsed = parseInt(q.quoteNumber.replace("Q-", ""), 10);
+      if (!isNaN(parsed) && parsed > maxNum) {
+        maxNum = parsed;
+      }
     }
   }
+  const nextNum = maxNum + 1;
   const quoteNumber = `Q-${nextNum}`;
   const quoteId = `quo-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const versionId = `qver-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const signingToken = "sign_" + crypto.randomBytes(16).toString("hex");
   const now = new Date().toISOString();
 
-  // Create Quote Version (Immutable snapshot)
+  // 1. Create Parent Quote first (so quoteId exists for foreign key constraint)
+  await db.insert(quotes).values({
+    id: quoteId,
+    quoteNumber,
+    crmCustomerId: input.crmCustomerId || null,
+    currentVersionId: versionId,
+    status: "טיוטה",
+    defaultInstallmentsCount: input.terms.installmentsCount || 1,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  // 2. Create Quote Version (Immutable snapshot referencing quoteId)
   await db.insert(quoteVersions).values({
     id: versionId,
     quoteId: quoteId,
@@ -87,18 +102,6 @@ export async function createQuote(input: CreateQuoteInput) {
     notesSnapshot: JSON.stringify(input.notes),
     signingToken,
     createdAt: now,
-  });
-
-  // Create Parent Quote
-  await db.insert(quotes).values({
-    id: quoteId,
-    quoteNumber,
-    crmCustomerId: input.crmCustomerId || null,
-    currentVersionId: versionId,
-    status: "טיוטה",
-    defaultInstallmentsCount: input.terms.installmentsCount || 1,
-    createdAt: now,
-    updatedAt: now,
   });
 
   return {
