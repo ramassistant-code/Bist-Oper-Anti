@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Local databases
+*.db
+*.db-journal
+*.sqlite
+*.sqlite-journal
+bist_operations_local.db
+
+# Environment variables & secrets (CRITICAL - NEVER COMMIT)
+.env
+.env*.local
+.env.local
+env.local
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor files
+.vscode/
+.idea/
+
+# Internal preserved assets
+_preserved_assets/

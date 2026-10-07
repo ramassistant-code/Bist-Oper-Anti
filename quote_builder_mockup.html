@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>יצירת הצעת מחיר מלאה | BIST Studio Operations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Assistant', 'Heebo', sans-serif;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen pb-16">
+
+  <!-- Top App Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-lg shadow-sm">
+            B
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-slate-900 tracking-tight text-lg">BI<span class="text-indigo-600">S</span>T</span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/60">סטודיו אופרציה</span>
+            </div>
+          </div>
+        </div>
+        <div class="h-5 w-px bg-slate-200"></div>
+        <div class="flex items-center gap-2">
+          <span class="text-sm font-semibold text-slate-800">הצעת מחיר חדשה</span>
+          <span class="text-xs font-mono font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Q-1048</span>
+          <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">טיוטה</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex items-center gap-2.5">
+        <button type="button" class="px-3.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200">
+          ביטול וחזרה
+        </button>
+        <button type="button" onclick="openPreviewModal()" class="px-3.5 py-1.5 text-xs font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors border border-indigo-200 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          תצוגה מקדימה
+        </button>
+        <button type="button" onclick="saveDraft()" class="px-4 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+          שמור והפק לינק לחתימה
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner explaining the 3 Levels of Notes -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5">
+    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3.5 flex items-center justify-between text-xs text-indigo-900">
+      <div class="flex items-center gap-2">
+        <span class="p-1 rounded-md bg-indigo-200 text-indigo-800">📝</span>
+        <span class="font-bold">מערכת הערות רב-שכבתית פעילה:</span>
+        <span class="text-indigo-700">במסך זה מוצגים כל שדות ההערות: ברמת ההצעה (ללקוח, אופרציה, מכירות), ברמת כל מוצר/חבילה בסל, וברמת כל רכיב אופרציה בודד.</span>
+      </div>
+      <span class="text-[11px] font-semibold bg-white text-indigo-700 px-2.5 py-1 rounded-md border border-indigo-200 shadow-2xs">
+        הפרדה מלאה: גלוי ללקוח לעומת פנימי דיסקרטי
+      </span>
+    </div>
+  </div>
+
+  <!-- Main Content Layout (Form on right, Live Summary on left) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Right Column: Interactive Form Sections (8 cols) -->
+      <div class="lg:col-span-8 space-y-6">
+
+        <!-- Section 1: Customer Card & Call Maker CRM Integration -->
+        <div class="bg-white rounded-xl border border-slate-200/90 shadow-xs p-5 relative overflow-hidden">
+          <div class="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-sky-500"></div>
+          
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">
+                1
+              </div>
+              <h2 class="font-bold text-slate-800 text-base">פרטי לקוח</h2>
+              <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200/80 px-2 py-0.5 rounded-full flex items-center gap-1 font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                מחובר ל-CRM Call Maker
+              </span>
+            </div>
+            <button type="button" onclick="resetCustomerSelection()" id="change-customer-btn" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
+              החלף לקוח
+            </button>
+          </div>
+
+          <!-- Customer Search Autocomplete from Call Maker API -->
+          <div id="customer-search-block" class="hidden">
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">
+              איתור לקוח ב-Call Maker (הקלד שם, עסק או מספר טלפון)
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              </div>
+              <input 
+                type="text" 
+                id="crm-search-input"
+                oninput="handleCrmSearch(this.value)"
+                placeholder="למשל: דניאל, סטודיו גולן, 054..." 
+                class="w-full pr-10 pl-24 py-2 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all placeholder:text-slate-400"
+              />
+              <div class="absolute inset-y-0 left-1.5 flex items-center">
+                <span class="text-[11px] font-medium text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded shadow-2xs">
+                  API חי
+                </span>
+              </div>
+            </div>
+
+            <!-- Autocomplete Results Dropdown -->
+            <div id="crm-results-dropdown" class="hidden mt-2 bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden divide-y divide-slate-100 z-20">
+              <div onclick="selectCrmCustomer('דניאל רוזן', '054-8899221', 'daniel@rozen-tech.co.il', '516624890', 'רוזן פתרונות תוכנה בע״מ', 'CM-90412')" class="p-3 hover:bg-indigo-50/60 cursor-pointer transition-colors flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                    <span>דניאל רוזן</span>
+                    <span class="text-xs font-normal text-slate-500">(רוזן פתרונות תוכנה בע״מ)</span>
+                  </div>
+                  <div class="text-xs text-slate-500 flex items-center gap-3 mt-0.5">
+                    <span>📞 054-8899221</span>
+                    <span>✉️ daniel@rozen-tech.co.il</span>
+                    <span>ח.פ: 516624890</span>
+                  </div>
+                </div>
+                <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">שייך להצעה</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Customer Card Display -->
+          <div id="selected-customer-card" class="bg-indigo-50/40 border border-indigo-100 rounded-lg p-3.5">
+            <div class="flex items-start justify-between">
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-bold text-slate-900" id="cust-name-disp">דניאל רוזן</span>
+                  <span class="text-xs text-slate-600" id="cust-biz-disp">· רוזן פתרונות תוכנה בע״מ</span>
+                  <span class="text-[11px] font-mono font-medium text-indigo-700 bg-indigo-100/70 px-1.5 py-0.5 rounded" id="cust-cm-id">CM-90412</span>
+                </div>
+                <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 pt-0.5">
+                  <span class="flex items-center gap-1">
+                    <span class="text-slate-400">טלפון:</span>
+                    <span class="font-medium" id="cust-phone-disp">054-8899221</span>
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="text-slate-400">אימייל:</span>
+                    <span class="font-medium" id="cust-email-disp">daniel@rozen-tech.co.il</span>
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <span class="text-slate-400">ח.פ / עוסק:</span>
+                    <span class="font-medium" id="cust-tax-disp">516624890</span>
+                  </span>
+                </div>
+              </div>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800">
+                לקוח מסונכרן
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Items & Studio Packages (The Core Operations Basket) -->
+        <div class="bg-white rounded-xl border border-slate-200/90 shadow-xs p-5">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">
+                2
+              </div>
+              <div>
+                <h2 class="font-bold text-slate-800 text-base">חבילות ומוצרי הפקה (כולל הערות שורה ורכיבים)</h2>
+                <p class="text-xs text-slate-500">בחירת שירותים, פירוק לרכיבי אופרציה, והזנת הערות ספציפיות לכל פריט ורכיב</p>
+              </div>
+            </div>
+
+            <!-- Add Buttons -->
+            <div class="flex items-center gap-2">
+              <div class="relative inline-block text-right">
+                <button 
+                  type="button" 
+                  onclick="toggleCatalogDropdown()"
+                  class="px-3 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-2xs flex items-center gap-1.5 transition-colors"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                  הוסף מהקטלוג
+                </button>
+
+                <!-- Catalog Dropdown Menu -->
+                <div id="catalog-dropdown" class="hidden absolute left-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-20">
+                  <div class="px-3 py-1.5 border-b border-slate-100 text-[11px] font-bold text-slate-400">חבילות מובילות</div>
+                  <button type="button" onclick="addProductItem('חבילת 5 סרטוני רילס / טיקטוק', 'כולל 2 שעות צילום סטודיו, עריכה מקצועית, כתוביות וסאונד', 4500, [
+                    {id: 'c1', name: '2 שעות צילום סטודיו', type: 'שעות אולפן', opsNote: 'לוודא תאורת רינג ומסך רקע מוארך', clientNote: 'בתיאום יום מראש'},
+                    {id: 'c2', name: '5 עריכות רילס (עד 60 שנ\')', type: 'עריכת וידאו', opsNote: 'קצב מהיר, כתוביות מודגשות בצהוב-לבן', clientNote: 'כולל מוזיקה ברישיון'},
+                    {id: 'c3', name: 'עיצוב קאבר / תמונת שער', type: 'גרפיקה', opsNote: 'שילוב לוגו הלקוח בפינה ימנית', clientNote: ''},
+                    {id: 'c4', name: '2 סבבי תיקונים לכל סרטון', type: 'תיקונים', opsNote: 'עד 48 שעות מיום קבלת פידבק', clientNote: 'עד 2 סבבים כלולים'}
+                  ])" class="w-full text-right px-3.5 py-2 hover:bg-slate-50 text-xs flex items-center justify-between">
+                    <div>
+                      <div class="font-semibold text-slate-800">חבילת 5 סרטוני רילס</div>
+                      <div class="text-[11px] text-slate-500">צילום סטודיו + עריכות מלאות</div>
+                    </div>
+                    <span class="font-bold text-indigo-600">₪4,500</span>
+                  </button>
+                  <button type="button" onclick="addProductItem('הפקת פודקאסט מצולם (פרק מלא)', 'עד 60 דקות צילום 3 מצלמות + מיקרופונים + ניתוב ועריכת פרק מלא', 2800, [
+                    {id: 'c5', name: 'שעתיים אולפן פודקאסט (3 מצלמות)', type: 'שעות אולפן', opsNote: 'סט כיסאות כורסה כחולים', clientNote: ''},
+                    {id: 'c6', name: 'עריכת פרק מלא + ניקוי סאונד', type: 'עריכת וידאו', opsNote: 'פילטר De-noise על הקול של המראיין', clientNote: 'איכות 4K מלאה'},
+                    {id: 'c7', name: '3 חיתוכי טיזרים לרשתות', type: 'עריכת וידאו', opsNote: 'פורמט 9:16 אנכי', clientNote: ''}
+                  ])" class="w-full text-right px-3.5 py-2 hover:bg-slate-50 text-xs flex items-center justify-between border-t border-slate-100">
+                    <div>
+                      <div class="font-semibold text-slate-800">הפקת פודקאסט מצולם</div>
+                      <div class="text-[11px] text-slate-500">3 מצלמות + עריכת פרק</div>
+                    </div>
+                    <span class="font-bold text-indigo-600">₪2,800</span>
+                  </button>
+                </div>
+              </div>
+
+              <button 
+                type="button" 
+                onclick="addCustomItem()"
+                class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg flex items-center gap-1.5 transition-colors border border-slate-200"
+              >
+                שורה ידנית
+              </button>
+            </div>
+          </div>
+
+          <!-- Items Table / Container -->
+          <div id="items-container" class="space-y-4">
+            <!-- Items injected dynamically via JS -->
+          </div>
+
+          <div id="empty-items-notice" class="hidden text-center py-10 border-2 border-dashed border-slate-200 rounded-xl">
+            <svg class="w-8 h-8 mx-auto text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <p class="text-sm font-semibold text-slate-700">סל המוצרים ריק</p>
+            <p class="text-xs text-slate-500 mt-0.5">בחר חבילה מהקטלוג או הוסף שורה ידנית כדי להתחיל.</p>
+          </div>
+        </div>
+
+        <!-- Section 3: All Global Notes & Production Terms (All 5 Types of Notes) -->
+        <div class="bg-white rounded-xl border border-slate-200/90 shadow-xs p-5">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-md bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">
+                3
+              </div>
+              <div>
+                <h2 class="font-bold text-slate-800 text-base">הערות כלליות, תנאי הפקה ומסירה</h2>
+                <p class="text-xs text-slate-500">הגדרת כל סוגי ההערות ברמת ההצעה: ללקוח, לאופרציה, לצוות המכירות ותנאי אספקה</p>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">4 שדות הערה מופרדים</span>
+          </div>
+
+          <!-- Basic Terms row -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">תוקף ההצעה</label>
+              <input type="text" id="terms-validity" value="14 יום ממועד הפקה" class="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-indigo-500 focus:outline-none font-medium">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">תנאי תשלום ומקדמה</label>
+              <select id="terms-payment" class="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-indigo-500 focus:outline-none font-medium">
+                <option>30% מקדמה בסגירה, 70% בגמר צילומים</option>
+                <option>50% מקדמה, 50% במסירת תוצרים</option>
+                <option>100% תשלום מראש</option>
+                <option>שוטף + 30</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">מספר תשלומים מקסימלי</label>
+              <input type="number" id="terms-installments" value="3" min="1" max="12" class="w-full text-xs p-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-1 focus:ring-indigo-500 focus:outline-none font-medium">
+            </div>
+          </div>
+
+          <!-- Detailed Notes Grid (All 4 Distinct Note Categories) -->
+          <div class="space-y-4">
+
+            <!-- 1. Customer-Facing Notes (In PDF / Sign Page) -->
+            <div class="border border-sky-200/80 rounded-xl p-4 bg-sky-50/20">
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-xs font-bold text-sky-900 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+                  1. הערות גלויות ללקוח (מופיעות בהצעת המחיר, ב-PDF ובדף החתימה)
+                </label>
+                <span class="text-[11px] font-semibold text-sky-700 bg-sky-100 px-2 py-0.5 rounded">מוצג ללקוח</span>
+              </div>
+              <textarea id="global-customer-notes" rows="2" class="w-full text-xs p-2.5 bg-white border border-sky-200 rounded-lg focus:ring-1 focus:ring-sky-500 focus:outline-none placeholder:text-slate-400" placeholder="למשל: המחיר כולל שימוש בציוד התאורה המתקדם של האולפן. חומרי הגלם יישמרו בענן הסטודיו למשך 30 יום."></textarea>
+            </div>
+
+            <!-- 2. Delivery Terms Notes (Customer Facing) -->
+            <div class="border border-emerald-200/80 rounded-xl p-4 bg-emerald-50/20">
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  2. תנאי אספקה ולוחות זמנים (גלוי ללקוח)
+                </label>
+                <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">זמני אספקה</span>
+              </div>
+              <textarea id="global-delivery-terms" rows="2" class="w-full text-xs p-2.5 bg-white border border-emerald-200 rounded-lg focus:ring-1 focus:ring-emerald-500 focus:outline-none placeholder:text-slate-400" placeholder="למשל: סקיצה ראשונה לבדיקת לקוח תימסר תוך 5 ימי עסקים מיום הצילומים. סבבי תיקונים יימסרו תוך 48 שעות ממועד העברת הפידבק."></textarea>
+            </div>
+
+            <!-- 3. Operations & Production Notes (Internal, Hidden from Client) -->
+            <div class="border border-indigo-200/80 rounded-xl p-4 bg-indigo-50/20">
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-xs font-bold text-indigo-900 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                  3. הערות למחלקת אופרציה, צלמים ועורכים (מוסתר מהלקוח)
+                </label>
+                <span class="text-[11px] font-semibold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200">פנימי לצוות הסטודיו</span>
+              </div>
+              <textarea id="global-operation-notes" rows="2" class="w-full text-xs p-2.5 bg-white border border-indigo-200 rounded-lg focus:ring-1 focus:ring-indigo-500 focus:outline-none placeholder:text-slate-400" placeholder="דגשים לצוות: הלקוח מעדיף רקע כהה. להקפיד על טמפו מהיר ועריכה בסגנון אלכס הורמוזי. לבדוק זמינות אולפן ב' ביום שלישי."></textarea>
+            </div>
+
+            <!-- 4. Sales & Management Notes (Strictly Internal & Confidential) -->
+            <div class="border border-amber-200/80 rounded-xl p-4 bg-amber-50/20">
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                  4. הערות פנימיות למכירות וניהול (דיסקרטי - להנהלה ולאיש המכירות)
+                </label>
+                <span class="text-[11px] font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 rounded border border-amber-200">דיסקרטי - מכירות</span>
+              </div>
+              <textarea id="global-internal-notes" rows="2" class="w-full text-xs p-2.5 bg-white border border-amber-200 rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none placeholder:text-slate-400" placeholder="סיכום סגירה מול הלקוח: הובטחה הנחה של 300 ש״ח במידה ויסגור עד יום חמישי. הלקוח שוקל להרחיב לריטיינר חודשי בהמשך."></textarea>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Left Column: Sticky Financial Calculator & Deliverables Overview (4 cols) -->
+      <div class="lg:col-span-4 space-y-5 lg:sticky lg:top-20">
+
+        <!-- Live Calculation Box -->
+        <div class="bg-white rounded-xl border border-slate-200/90 shadow-md p-5 overflow-hidden">
+          <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+            <h3 class="font-bold text-slate-900 text-sm">סיכום כספי בזמן אמת</h3>
+            <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/80">חישוב אוטומטי</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between items-center text-slate-600">
+              <span>סה״כ פריטים (לפני מע״מ):</span>
+              <span class="font-semibold text-slate-900 font-mono text-sm" id="calc-subtotal">₪0.00</span>
+            </div>
+
+            <div class="flex justify-between items-center text-slate-600">
+              <div class="flex items-center gap-1.5">
+                <span>הנחה גלובלית:</span>
+                <div class="flex items-center border border-slate-200 rounded overflow-hidden">
+                  <input 
+                    type="number" 
+                    id="discount-input" 
+                    value="0" 
+                    oninput="recalculate()"
+                    class="w-16 px-1.5 py-0.5 text-xs text-center focus:outline-none"
+                  />
+                  <span class="bg-slate-100 text-slate-500 px-1 text-[11px]">₪</span>
+                </div>
+              </div>
+              <span class="font-medium text-amber-600 font-mono" id="calc-discount">-₪0.00</span>
+            </div>
+
+            <!-- Override Basket Note Field -->
+            <div id="override-note-container" class="bg-amber-50 p-2 rounded border border-amber-200 text-[11px] hidden">
+              <label class="block font-bold text-amber-900 mb-0.5">סיבת הנחה / שינוי מחיר כולל:</label>
+              <input type="text" id="basket-override-note" class="w-full bg-white p-1 text-[11px] border border-amber-300 rounded" placeholder="למשל: סגירה מהירה / לקוח חוזר">
+            </div>
+
+            <div class="flex justify-between items-center text-slate-600">
+              <span>סכום חייב במע״מ:</span>
+              <span class="font-semibold text-slate-800 font-mono" id="calc-after-discount">₪0.00</span>
+            </div>
+
+            <div class="flex justify-between items-center text-slate-600 pb-3 border-b border-slate-100">
+              <span>מע״מ לפי חוק (18%):</span>
+              <span class="font-semibold text-slate-800 font-mono" id="calc-vat">₪0.00</span>
+            </div>
+
+            <!-- Grand Total -->
+            <div class="pt-1">
+              <div class="flex justify-between items-baseline">
+                <span class="font-extrabold text-slate-900 text-sm">סה״כ לתשלום:</span>
+                <span class="font-black text-indigo-600 text-2xl font-mono" id="calc-grand-total">₪0.00</span>
+              </div>
+              <p class="text-[11px] text-slate-400 text-left mt-0.5">כולל מע״מ כחוק</p>
+            </div>
+
+            <!-- Deposit Calculation -->
+            <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 mt-3 flex justify-between items-center">
+              <div>
+                <span class="font-bold text-slate-700 block text-xs">מקדמה לסגירה (30%):</span>
+                <span class="text-[10px] text-slate-500">תשלום ראשון נדרש</span>
+              </div>
+              <span class="font-bold text-slate-900 font-mono text-sm" id="calc-deposit">₪0.00</span>
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons in Box -->
+          <div class="mt-5 space-y-2">
+            <button 
+              type="button" 
+              onclick="saveDraft()"
+              class="w-full py-2.5 px-4 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2"
+            >
+              <span>הפקת הצעת מחיר ולינק לחתימה</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+
+            <button 
+              type="button" 
+              onclick="openPreviewModal()"
+              class="w-full py-2 px-4 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-colors flex items-center justify-center gap-1.5"
+            >
+              <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              <span>תצוגה מקדימה כפי שרואה הלקוח</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Deliverables Summary Box (What will be created for operations) -->
+        <div class="bg-white rounded-xl border border-slate-200/90 shadow-xs p-4">
+          <div class="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
+            <h4 class="font-bold text-xs text-slate-800">תוצרים שייפתחו באופרציה</h4>
+            <span class="text-[10px] text-slate-500 font-mono">Auto-generated</span>
+          </div>
+          <ul id="deliverables-preview-list" class="space-y-1.5 text-xs">
+            <!-- Injected via JS -->
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Modal: Live Preview (Client Signing View) -->
+  <div id="preview-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full border border-slate-200 overflow-hidden my-8">
+      
+      <!-- Modal Header -->
+      <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
+        <div>
+          <span class="text-xs text-indigo-400 font-semibold">תצוגה מקדימה לחתימה</span>
+          <h3 class="font-black text-lg">הצעת מחיר - BIST Productions</h3>
+        </div>
+        <button type="button" onclick="closePreviewModal()" class="text-slate-400 hover:text-white text-xl p-1">
+          ✕
+        </button>
+      </div>
+
+      <!-- Document Mock Body -->
+      <div class="p-6 space-y-6 text-slate-800 max-h-[75vh] overflow-y-auto">
+        <div class="flex justify-between items-start border-b border-slate-100 pb-4">
+          <div>
+            <h4 class="font-extrabold text-base text-slate-900">לכבוד: <span id="modal-cust-name">דניאל רוזן</span></h4>
+            <p class="text-xs text-slate-500 mt-0.5" id="modal-cust-biz">רוזן פתרונות תוכנה בע״מ</p>
+            <p class="text-xs text-slate-500" id="modal-cust-phone">טלפון: 054-8899221</p>
+          </div>
+          <div class="text-left">
+            <p class="text-xs font-mono font-bold text-slate-600">מספר הצעה: Q-1048</p>
+            <p class="text-xs text-slate-400">תאריך: 07/10/2026</p>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-bold text-xs text-slate-700 mb-2">פירוט שירותי ההפקה:</h5>
+          <table class="w-full text-xs text-right border border-slate-100 rounded-lg overflow-hidden">
+            <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
+              <tr>
+                <th class="p-2.5">תיאור השירות / חבילה והערות</th>
+                <th class="p-2.5 text-center">כמות</th>
+                <th class="p-2.5 text-left">סה״כ</th>
+              </tr>
+            </thead>
+            <tbody id="modal-items-tbody" class="divide-y divide-slate-100">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Terms and Notes displayed to client in Preview -->
+        <div class="bg-slate-50 p-4 rounded-xl space-y-2 text-xs border border-slate-200">
+          <div>
+            <span class="font-bold text-slate-800 block">הערות להצעה:</span>
+            <p id="modal-cust-notes" class="text-slate-600 mt-0.5 whitespace-pre-line"></p>
+          </div>
+          <div class="pt-2 border-t border-slate-200">
+            <span class="font-bold text-slate-800 block">תנאי אספקה:</span>
+            <p id="modal-delivery-terms" class="text-slate-600 mt-0.5 whitespace-pre-line"></p>
+          </div>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-xl flex justify-between items-center text-xs">
+          <span class="font-bold text-slate-700">סה״כ לתשלום (כולל מע״מ):</span>
+          <span class="font-black text-indigo-600 text-lg font-mono" id="modal-grand-total">₪0.00</span>
+        </div>
+
+        <!-- Signature Area Simulation -->
+        <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center bg-slate-50/50">
+          <p class="text-xs font-semibold text-slate-600 mb-2">אזור חתימת הלקוח (במובייל / במסך מגע):</p>
+          <div class="h-20 bg-white rounded-lg border border-slate-200 flex items-center justify-center text-slate-300 text-sm italic">
+            [ כאן הלקוח חותם באצבע על גבי המסך ]
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-slate-50 p-4 border-t border-slate-100 flex justify-end gap-2">
+        <button type="button" onclick="closePreviewModal()" class="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-100">
+          סגור
+        </button>
+        <button type="button" onclick="alert('לינק לחתימה נוצר והועתק!'); closePreviewModal();" class="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm">
+          העתק לינק חתימה לוואטסאפ
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    // Initial State with full 3-level notes
+    let items = [
+      {
+        id: 'item-1',
+        name: 'חבילת 5 סרטוני רילס / טיקטוק',
+        desc: 'כולל 2 שעות צילום סטודיו, עריכה מקצועית, כתוביות וסאונד',
+        price: 4500,
+        qty: 1,
+        customerNote: 'כולל תאורה מתקדמת וצילום באיכות 4K',
+        internalOpsNote: 'לוודא שיש עדשת 50mm זמינה + תאורת רינג נקייה',
+        priceOverrideReason: '',
+        showNotes: true,
+        components: [
+          { id: 'c1', name: '2 שעות צילום סטודיו', type: 'שעות אולפן', opsNote: 'לוודא רקע שחור/אפור חלק', clientNote: 'בתיאום מראש', showNotes: false },
+          { id: 'c2', name: '5 עריכות רילס (עד 60 שנ\')', type: 'עריכת וידאו', opsNote: 'קצב מהיר, כתוביות מודגשות בצהוב', clientNote: 'כולל סאונד טרנדי', showNotes: false },
+          { id: 'c3', name: 'עיצוב קאבר / תמונת שער', type: 'גרפיקה', opsNote: 'לשלב לוגו לקוח בפינה', clientNote: '', showNotes: false },
+          { id: 'c4', name: '2 סבבי תיקונים לכל סרטון', type: 'תיקונים', opsNote: 'עד 48 שעות מיום קבלת פידבק', clientNote: 'עד 2 סבבים כלולים', showNotes: false }
+        ]
+      }
+    ];
+
+    let currentCustomer = {
+      name: 'דניאל רוזן',
+      phone: '054-8899221',
+      email: 'daniel@rozen-tech.co.il',
+      taxId: '516624890',
+      biz: 'רוזן פתרונות תוכנה בע״מ',
+      cmId: 'CM-90412'
+    };
+
+    function renderItems() {
+      const container = document.getElementById('items-container');
+      const emptyNotice = document.getElementById('empty-items-notice');
+      
+      if (items.length === 0) {
+        container.innerHTML = '';
+        emptyNotice.classList.remove('hidden');
+        recalculate();
+        renderDeliverablesPreview();
+        return;
+      }
+
+      emptyNotice.classList.add('hidden');
+      container.innerHTML = items.map((it, idx) => `
+        <div class="border border-slate-200 rounded-xl p-4 bg-white hover:border-slate-300 transition-all shadow-2xs space-y-3">
+          
+          <!-- Top row: Product Name, Description, Quantity, Price, Delete -->
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 text-xs flex items-center justify-center font-bold">
+                  ${idx + 1}
+                </span>
+                <input 
+                  type="text" 
+                  value="${it.name}" 
+                  onchange="updateItemName('${it.id}', this.value)"
+                  class="font-bold text-sm text-slate-800 bg-transparent hover:bg-slate-50 focus:bg-white border-b border-transparent focus:border-indigo-500 px-1 py-0.5 rounded focus:outline-none w-full max-w-md"
+                />
+              </div>
+              <input 
+                type="text" 
+                value="${it.desc}" 
+                onchange="updateItemDesc('${it.id}', this.value)"
+                class="text-xs text-slate-500 bg-transparent hover:bg-slate-50 focus:bg-white border-b border-transparent focus:border-indigo-500 px-1 py-0.5 rounded focus:outline-none w-full mt-1"
+                placeholder="תיאור השירות..."
+              />
+            </div>
+
+            <!-- Price and Quantity Inputs -->
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="text-center">
+                <label class="block text-[10px] text-slate-400 font-semibold mb-0.5">כמות</label>
+                <input 
+                  type="number" 
+                  value="${it.qty}" 
+                  min="1"
+                  onchange="updateItemQty('${it.id}', this.value)"
+                  class="w-14 text-center text-xs font-bold p-1 bg-slate-50 border border-slate-200 rounded-md focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                />
+              </div>
+
+              <div class="text-center">
+                <label class="block text-[10px] text-slate-400 font-semibold mb-0.5">מחיר יחידה (₪)</label>
+                <input 
+                  type="number" 
+                  value="${it.price}" 
+                  onchange="updateItemPrice('${it.id}', this.value)"
+                  class="w-24 text-left text-xs font-bold font-mono p-1 bg-slate-50 border border-slate-200 rounded-md focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                />
+              </div>
+
+              <div class="text-left w-20 pt-3">
+                <span class="block text-xs font-black font-mono text-slate-900">
+                  ₪${(it.price * it.qty).toLocaleString()}
+                </span>
+              </div>
+
+              <button 
+                type="button" 
+                onclick="removeItem('${it.id}')"
+                class="text-slate-400 hover:text-red-500 p-1.5 rounded-md hover:bg-red-50 transition-colors pt-3"
+                title="מחק שורה"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- LEVEL 2 NOTES: Line-item Notes (Customer note, Ops note, Price override reason) -->
+          <div class="bg-slate-50/70 border border-slate-200/80 rounded-lg p-3">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                הערות לשורת המוצר
+              </span>
+              <span class="text-[10px] text-slate-400">מוצר זה</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">
+                  הערה ללקוח לשורה זו (תופיע בהצעה):
+                </label>
+                <input 
+                  type="text" 
+                  value="${it.customerNote || ''}" 
+                  onchange="updateItemCustomerNote('${it.id}', this.value)"
+                  placeholder="למשל: כולל צילום 4K, ללא הגבלת טייקים" 
+                  class="w-full text-xs p-1.5 bg-white border border-slate-200 rounded focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-semibold text-indigo-700 mb-0.5 flex items-center gap-1">
+                  <span>הערת אופרציה פנימית לשורה זו:</span>
+                  <span class="text-[9px] bg-indigo-50 text-indigo-600 px-1 rounded">פנימי</span>
+                </label>
+                <input 
+                  type="text" 
+                  value="${it.internalOpsNote || ''}" 
+                  onchange="updateItemInternalOpsNote('${it.id}', this.value)"
+                  placeholder="למשל: להכין תאורת לד ומיקרופון דש נוסף" 
+                  class="w-full text-xs p-1.5 bg-white border border-indigo-200 rounded focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Optional: Price Override Reason (if price was modified) -->
+            <div class="mt-2 pt-2 border-t border-slate-200/60 flex items-center gap-2">
+              <label class="text-[10px] font-semibold text-amber-700 shrink-0">סיבת שינוי מחיר שורה (אם שונה מברירת המחדל):</label>
+              <input 
+                type="text" 
+                value="${it.priceOverrideReason || ''}" 
+                onchange="updateItemPriceOverrideReason('${it.id}', this.value)"
+                placeholder="למשל: הנחת היכרות, תוספת ציוד מיוחד..." 
+                class="w-full text-xs p-1 bg-white border border-amber-200 rounded focus:ring-1 focus:ring-amber-500 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- LEVEL 3 NOTES: Component Breakdown & Individual Component Notes -->
+          ${it.components && it.components.length > 0 ? `
+            <div class="pt-2">
+              <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2 font-medium">
+                <div class="flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                  <span class="font-bold text-slate-700">רכיבי אופרציה הכלולים בחבילה + הערות איש מקצוע לכל רכיב:</span>
+                </div>
+                <span class="text-[10px] text-slate-400">פירוק למשימות</span>
+              </div>
+
+              <div class="space-y-2">
+                ${it.components.map((c, cIdx) => `
+                  <div class="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 text-xs">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-800">${c.name}</span>
+                        <span class="text-[10px] text-slate-500 bg-white border border-slate-200 px-1.5 py-0.2 rounded">${c.type}</span>
+                      </div>
+                      <button 
+                        type="button" 
+                        onclick="toggleComponentNotes('${it.id}', '${c.id}')"
+                        class="text-[11px] text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1"
+                      >
+                        <span>${c.showNotes ? 'סגור הערות רכיב' : 'ערוך הערות רכיב (' + (c.opsNote ? 'יש הערה' : 'ריק') + ')'}</span>
+                      </button>
+                    </div>
+
+                    <!-- Component Notes Dropdown / Expanded -->
+                    <div class="${c.showNotes ? 'block' : 'hidden'} mt-2 pt-2 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div>
+                        <label class="block text-[10px] font-bold text-indigo-800 mb-0.5">הערת איש מקצוע / עורך (פנימי לרכיב זה):</label>
+                        <input 
+                          type="text" 
+                          value="${c.opsNote || ''}" 
+                          onchange="updateComponentOpsNote('${it.id}', '${c.id}', this.value)"
+                          placeholder="למשל: סגנון טיקטוק מהיר, אפקטי סאונד Whoosh" 
+                          class="w-full text-xs p-1 bg-white border border-indigo-200 rounded focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label class="block text-[10px] font-bold text-slate-600 mb-0.5">הערה ללקוח עבור רכיב זה:</label>
+                        <input 
+                          type="text" 
+                          value="${c.clientNote || ''}" 
+                          onchange="updateComponentClientNote('${it.id}', '${c.id}', this.value)"
+                          placeholder="למשל: עד 2 סבבי תיקונים" 
+                          class="w-full text-xs p-1 bg-white border border-slate-200 rounded focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+        </div>
+      `).join('');
+
+      recalculate();
+      renderDeliverablesPreview();
+    }
+
+    function addProductItem(name, desc, price, components) {
+      items.push({
+        id: 'item-' + Date.now(),
+        name,
+        desc,
+        price,
+        qty: 1,
+        customerNote: '',
+        internalOpsNote: '',
+        priceOverrideReason: '',
+        components
+      });
+      toggleCatalogDropdown(false);
+      renderItems();
+    }
+
+    function addCustomItem() {
+      items.push({
+        id: 'item-' + Date.now(),
+        name: 'שירות מותאם אישית',
+        desc: 'פירוט שירות נוסף...',
+        price: 500,
+        qty: 1,
+        customerNote: '',
+        internalOpsNote: '',
+        priceOverrideReason: '',
+        components: [{ id: 'cust-' + Date.now(), name: 'תוצר לפי דרישה', type: 'הפקה', opsNote: '', clientNote: '', showNotes: false }]
+      });
+      renderItems();
+    }
+
+    function removeItem(id) {
+      items = items.filter(it => it.id !== id);
+      renderItems();
+    }
+
+    function updateItemName(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.name = val;
+    }
+
+    function updateItemDesc(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.desc = val;
+    }
+
+    function updateItemQty(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.qty = Math.max(1, parseInt(val) || 1);
+      renderItems();
+    }
+
+    function updateItemPrice(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.price = parseFloat(val) || 0;
+      recalculate();
+    }
+
+    function updateItemCustomerNote(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.customerNote = val;
+    }
+
+    function updateItemInternalOpsNote(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.internalOpsNote = val;
+    }
+
+    function updateItemPriceOverrideReason(id, val) {
+      const it = items.find(i => i.id === id);
+      if (it) it.priceOverrideReason = val;
+    }
+
+    function toggleComponentNotes(itemId, compId) {
+      const it = items.find(i => i.id === itemId);
+      if (it && it.components) {
+        const c = it.components.find(comp => comp.id === compId);
+        if (c) {
+          c.showNotes = !c.showNotes;
+          renderItems();
+        }
+      }
+    }
+
+    function updateComponentOpsNote(itemId, compId, val) {
+      const it = items.find(i => i.id === itemId);
+      if (it && it.components) {
+        const c = it.components.find(comp => comp.id === compId);
+        if (c) c.opsNote = val;
+      }
+    }
+
+    function updateComponentClientNote(itemId, compId, val) {
+      const it = items.find(i => i.id === itemId);
+      if (it && it.components) {
+        const c = it.components.find(comp => comp.id === compId);
+        if (c) c.clientNote = val;
+      }
+    }
+
+    function toggleCatalogDropdown(forceState) {
+      const dd = document.getElementById('catalog-dropdown');
+      if (forceState !== undefined) {
+        dd.classList.toggle('hidden', !forceState);
+      } else {
+        dd.classList.toggle('hidden');
+      }
+    }
+
+    // Financial Recalculation Engine
+    function recalculate() {
+      const subtotal = items.reduce((sum, it) => sum + (it.price * it.qty), 0);
+      const discount = parseFloat(document.getElementById('discount-input').value) || 0;
+      
+      const overrideBox = document.getElementById('override-note-container');
+      if (discount > 0) {
+        overrideBox.classList.remove('hidden');
+      } else {
+        overrideBox.classList.add('hidden');
+      }
+
+      const afterDiscount = Math.max(0, subtotal - discount);
+      const vat = afterDiscount * 0.18;
+      const grandTotal = afterDiscount + vat;
+      const deposit = grandTotal * 0.30;
+
+      document.getElementById('calc-subtotal').innerText = '₪' + subtotal.toLocaleString('he-IL', { minimumFractionDigits: 2 });
+      document.getElementById('calc-discount').innerText = '-₪' + discount.toLocaleString('he-IL', { minimumFractionDigits: 2 });
+      document.getElementById('calc-after-discount').innerText = '₪' + afterDiscount.toLocaleString('he-IL', { minimumFractionDigits: 2 });
+      document.getElementById('calc-vat').innerText = '₪' + vat.toLocaleString('he-IL', { minimumFractionDigits: 2 });
+      document.getElementById('calc-grand-total').innerText = '₪' + grandTotal.toLocaleString('he-IL', { minimumFractionDigits: 2 });
+      document.getElementById('calc-deposit').innerText = '₪' + deposit.toLocaleString('he-IL', { minimumFractionDigits: 2 });
+    }
+
+    // Deliverables List Preview
+    function renderDeliverablesPreview() {
+      const list = document.getElementById('deliverables-preview-list');
+      const allComps = [];
+      items.forEach(it => {
+        (it.components || []).forEach(c => allComps.push(c));
+      });
+
+      if (allComps.length === 0) {
+        list.innerHTML = '<li class="text-slate-400 italic">אין תוצרים מוגדרים בסל.</li>';
+        return;
+      }
+
+      list.innerHTML = allComps.map(c => `
+        <li class="flex items-center justify-between text-slate-700 bg-slate-50 p-1.5 rounded border border-slate-100">
+          <div>
+            <span class="font-medium">${c.name}</span>
+            ${c.opsNote ? `<span class="block text-[10px] text-indigo-600">הנחיה: ${c.opsNote}</span>` : ''}
+          </div>
+          <span class="text-[10px] text-slate-400">${c.type}</span>
+        </li>
+      `).join('');
+    }
+
+    // Call Maker CRM Integration Handlers
+    function handleCrmSearch(val) {
+      const dropdown = document.getElementById('crm-results-dropdown');
+      if (val.trim().length >= 2) {
+        dropdown.classList.remove('hidden');
+      } else {
+        dropdown.classList.add('hidden');
+      }
+    }
+
+    function selectCrmCustomer(name, phone, email, taxId, biz, cmId) {
+      currentCustomer = { name, phone, email, taxId, biz, cmId };
+      document.getElementById('cust-name-disp').innerText = name;
+      document.getElementById('cust-biz-disp').innerText = '· ' + biz;
+      document.getElementById('cust-phone-disp').innerText = phone;
+      document.getElementById('cust-email-disp').innerText = email;
+      document.getElementById('cust-tax-disp').innerText = taxId;
+      document.getElementById('cust-cm-id').innerText = cmId;
+
+      document.getElementById('customer-search-block').classList.add('hidden');
+      document.getElementById('selected-customer-card').classList.remove('hidden');
+      document.getElementById('change-customer-btn').classList.remove('hidden');
+      document.getElementById('crm-results-dropdown').classList.add('hidden');
+    }
+
+    function resetCustomerSelection() {
+      document.getElementById('customer-search-block').classList.remove('hidden');
+      document.getElementById('selected-customer-card').classList.add('hidden');
+      document.getElementById('change-customer-btn').classList.add('hidden');
+      document.getElementById('crm-search-input').value = '';
+    }
+
+    // Preview Modal Handlers
+    function openPreviewModal() {
+      document.getElementById('modal-cust-name').innerText = currentCustomer.name;
+      document.getElementById('modal-cust-biz').innerText = currentCustomer.biz;
+      document.getElementById('modal-cust-phone').innerText = 'טלפון: ' + currentCustomer.phone;
+
+      const custNotes = document.getElementById('global-customer-notes').value || 'אין הערות נוספות';
+      const delTerms = document.getElementById('global-delivery-terms').value || 'לפי תנאי הסטודיו הסטנדרטיים';
+      document.getElementById('modal-cust-notes').innerText = custNotes;
+      document.getElementById('modal-delivery-terms').innerText = delTerms;
+
+      const tbody = document.getElementById('modal-items-tbody');
+      tbody.innerHTML = items.map(it => `
+        <tr>
+          <td class="p-2.5">
+            <span class="font-bold block">${it.name}</span>
+            <span class="text-[11px] text-slate-500">${it.desc}</span>
+            ${it.customerNote ? `<span class="block text-[11px] text-indigo-600 font-medium mt-0.5">הערת שירות: ${it.customerNote}</span>` : ''}
+          </td>
+          <td class="p-2.5 text-center font-mono">${it.qty}</td>
+          <td class="p-2.5 text-left font-mono font-bold">₪${(it.price * it.qty).toLocaleString()}</td>
+        </tr>
+      `).join('');
+
+      const grandTotalText = document.getElementById('calc-grand-total').innerText;
+      document.getElementById('modal-grand-total').innerText = grandTotalText;
+
+      document.getElementById('preview-modal').classList.remove('hidden');
+    }
+
+    function closePreviewModal() {
+      document.getElementById('preview-modal').classList.add('hidden');
+    }
+
+    function saveDraft() {
+      alert('הצעת המחיר נשמרה בהצלחה בטיוטה!\n\n• כל 3 רמות ההערות נשמרו בסנאפשוט של הגרסה\n• נוצר לינק לחתימה דיגיטלית עבור ' + currentCustomer.name + '\n• סטטוס עודכן ב-Call Maker CRM (מזהה: ' + currentCustomer.cmId + ')');
+    }
+
+    // Initial render
+    window.onload = function() {
+      renderItems();
+      document.getElementById('global-customer-notes').value = "המחיר כולל שימוש בציוד התאורה המתקדם של האולפן. חומרי הגלם יישמרו בענן הסטודיו למשך 30 יום.";
+      document.getElementById('global-delivery-terms').value = "סקיצה ראשונה לבדיקת לקוח תימסר תוך 5 ימי עסקים מיום הצילומים. סבבי תיקונים יימסרו תוך 48 שעות.";
+      document.getElementById('global-operation-notes').value = "דגשים לצוות: הלקוח מעדיף רקע כהה. להקפיד על טמפו מהיר ועריכה בסגנון מודרני. לבדוק זמינות אולפן ב'.";
+      document.getElementById('global-internal-notes').value = "סגירה מול הלקוח: הובטחה הנחה של 300 ש״ח במידה ויסגור עד סוף השבוע. רלוונטי להרחבה לריטיינר.";
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דשבורד אופרציה | BIST Studio Operations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Assistant', 'Heebo', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased h-screen overflow-hidden flex">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- 1. RIGHT SIDEBAR NAVIGATION (תפריט המערכת הממוקד באופרציה)                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <aside class="w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0 border-l border-slate-800 z-30 select-none">
+    
+    <div>
+      <!-- Brand Logo / Studio Header -->
+      <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-black text-lg text-white shadow-md shadow-indigo-600/30">
+            B
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-extrabold tracking-tight text-base text-white">BI<span class="text-indigo-400">S</span>T</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-indigo-950 text-indigo-300 border border-indigo-700/50">PRO</span>
+            </div>
+            <p class="text-[11px] text-slate-400 -mt-0.5">ניהול אופרציה ותוצרים</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Menu Items (No Leads/Customers - Pure Operations) -->
+      <nav class="p-3 space-y-1 text-xs font-semibold">
+        
+        <!-- Category: Operations Engine -->
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 tracking-wider">
+          אופרציה והפקה
+        </div>
+
+        <!-- 1. Dashboard (Active) -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-indigo-600 text-white shadow-sm shadow-indigo-600/20 transition-colors">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <span class="flex-1">דשבורד ראשי</span>
+        </a>
+
+        <!-- 2. Deliverables Hub (The Core Engine) -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span class="flex-1">ניהול תוצרים (Pipeline)</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">18 בעבודה</span>
+        </a>
+
+        <!-- 3. Deals / Production Orders -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span class="flex-1">עסקאות והזמנות</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-400">12 פתוחות</span>
+        </a>
+
+        <!-- 4. Quotes & Versions -->
+        <a href="quote_builder_mockup.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span class="flex-1">הצעות מחיר</span>
+          <span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">4 לחתימה</span>
+        </a>
+
+        <!-- Category: Studio Catalog -->
+        <div class="px-3 pt-4 pb-1 text-[10px] font-bold text-slate-400 tracking-wider">
+          קטלוג הסטודיו
+        </div>
+
+        <!-- 5. Products & Packages -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <span class="flex-1">חבילות ומוצרים</span>
+        </a>
+
+        <!-- 6. Components & SOPs -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          <span class="flex-1">רכיבי אופרציה (BOM)</span>
+        </a>
+
+        <!-- Category: Integrations & Settings -->
+        <div class="px-3 pt-4 pb-1 text-[10px] font-bold text-slate-400 tracking-wider">
+          אינטגרציות ומערכת
+        </div>
+
+        <!-- 7. Call Maker CRM Status -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span class="flex-1">סנכרון Call Maker</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        </a>
+
+        <!-- 8. Settings -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span class="flex-1">הגדרות סטודיו וצוות</span>
+        </a>
+
+      </nav>
+    </div>
+
+    <!-- User / Studio Profile & Live Status Footer -->
+    <div class="p-3 border-t border-slate-800 space-y-2">
+      <!-- Call Maker Status Pill -->
+      <div class="px-3 py-2 bg-slate-800/80 rounded-lg border border-slate-700/60 text-[11px] flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-slate-300 font-medium">CRM Call Maker</span>
+        </div>
+        <span class="text-[10px] text-emerald-400 font-mono font-bold">מחובר (API)</span>
+      </div>
+
+      <!-- User Card -->
+      <div class="flex items-center justify-between px-2 py-1">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center justify-center font-bold text-xs shrink-0">
+            רם
+          </div>
+          <div class="min-w-0">
+            <p class="text-xs font-bold text-white truncate">סטודיו BIST</p>
+            <p class="text-[10px] text-slate-400 truncate">מנהל אופרציה</p>
+          </div>
+        </div>
+        <button type="button" title="התנתק" class="text-slate-400 hover:text-white p-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <!-- 2. MAIN APP CONTENT AREA (Header + Dashboard Overview)                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    
+    <!-- Top Header Bar -->
+    <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3">
+        <h1 class="text-lg font-black text-slate-900 tracking-tight">דשבורד אופרציה והפקה</h1>
+        <span class="text-xs font-medium text-slate-500">יום רביעי, 07 באוקטובר 2026</span>
+      </div>
+
+      <!-- Header Quick Actions -->
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <input 
+            type="text" 
+            placeholder="חיפוש תוצר, פרויקט או לקוח..." 
+            class="w-64 pr-9 pl-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-400"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute right-2.5 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+
+        <a 
+          href="quote_builder_mockup.html" 
+          class="px-3.5 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm transition-all flex items-center gap-1.5"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          הצעת מחיר חדשה
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Scrollable Dashboard Canvas -->
+    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+      <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+      <!-- 3. TOP KPI METRICS CARDS (מדדי מפתח תפעוליים)                                 -->
+      <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Card 1: Deliverables in Progress -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-500">תוצרים בעבודה כעת</span>
+            <span class="p-1.5 rounded-lg bg-indigo-50 text-indigo-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-slate-900 font-mono">18</span>
+            <span class="text-xs font-semibold text-indigo-600">סרטונים וסטילס</span>
+          </div>
+          <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-500">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+            <span>11 בעריכה ראשונה · 7 בסבבי תיקונים</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Waiting for Client Review -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-500">ממתינים למשוב לקוח</span>
+            <span class="p-1.5 rounded-lg bg-amber-50 text-amber-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-amber-600 font-mono">6</span>
+            <span class="text-xs font-semibold text-slate-600">תוצרים בבדיקה</span>
+          </div>
+          <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-500">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span>נשלחו לינקים לצפייה בוואטסאפ</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Studio Hours Booked -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-500">שעות סטודיו השבוע</span>
+            <span class="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-slate-900 font-mono">14</span>
+            <span class="text-xs font-semibold text-slate-600">מתוך 25 שעות קיבולת</span>
+          </div>
+          <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-500">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span>4 ימי צילום מתואמים השבוע</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Quotes Pending Signature -->
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-500">הצעות ממתינות לחתימה</span>
+            <span class="p-1.5 rounded-lg bg-sky-50 text-sky-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            </span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-indigo-600 font-mono">4</span>
+            <span class="text-xs font-semibold text-slate-600">בשווי ₪28,400</span>
+          </div>
+          <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-500">
+            <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+            <span>2 נצפו על ידי הלקוח היום</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+      <!-- 4. ACTIVE PRODUCTION DELIVERABLES PIPELINE (מרכז התוצרים הפעיל)               -->
+      <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        
+        <!-- Deliverables Table Header & Filters -->
+        <div class="p-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="font-extrabold text-slate-900 text-base">סטטוס תוצרים בהפקה (Active Deliverables)</h2>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700">מעקב חי</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5">כל סרטון, יום צילום וסבב תיקונים המשויך לעסקאות פעילות</p>
+          </div>
+
+          <!-- Quick Stage Filters -->
+          <div class="flex items-center gap-1.5 text-xs">
+            <button type="button" class="px-2.5 py-1 rounded-md bg-indigo-600 text-white font-semibold">הכל (18)</button>
+            <button type="button" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium">בעריכה (11)</button>
+            <button type="button" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium">ממתין ללקוח (6)</button>
+            <button type="button" class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium">דחופים להשבוע (4)</button>
+          </div>
+        </div>
+
+        <!-- Deliverables Interactive Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
+              <tr>
+                <th class="p-3">שם התוצר והחבילה</th>
+                <th class="p-3">לקוח (Call Maker)</th>
+                <th class="p-3">איש צוות / עורך</th>
+                <th class="p-3">שלב ביצוע (Status)</th>
+                <th class="p-3">סבב תיקונים</th>
+                <th class="p-3">דדליין יעד</th>
+                <th class="p-3 text-left">קישורים ופעולות</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-800">
+              
+              <!-- Deliverable 1 -->
+              <tr class="hover:bg-slate-50/70 transition-colors">
+                <td class="p-3">
+                  <div class="font-bold text-slate-900">סרטון רילס #1 - הצגת מוצר</div>
+                  <div class="text-[11px] text-slate-500">מתוך: חבילת 5 סרטוני רילס (D-1024)</div>
+                </td>
+                <td class="p-3">
+                  <div class="font-semibold text-slate-800">דניאל רוזן</div>
+                  <div class="text-[10px] text-slate-400 font-mono">רוזן תוכנה · CM-90412</div>
+                </td>
+                <td class="p-3">
+                  <span class="inline-flex items-center gap-1 font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+                    <span>✂️ עורך: גיא</span>
+                  </span>
+                </td>
+                <td class="p-3">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse"></span>
+                    בעריכה ראשונה
+                  </span>
+                </td>
+                <td class="p-3 font-mono text-slate-600">טיוטה א'</td>
+                <td class="p-3 text-amber-600 font-semibold">מחר, 18:00</td>
+                <td class="p-3 text-left">
+                  <div class="flex items-center justify-end gap-2">
+                    <a href="#" class="px-2 py-1 text-[11px] font-semibold text-slate-700 hover:text-indigo-600 bg-slate-100 rounded hover:bg-slate-200">דרייב גלם</a>
+                    <button type="button" class="px-2.5 py-1 text-[11px] font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded">עדכן שלב</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Deliverable 2 -->
+              <tr class="hover:bg-slate-50/70 transition-colors">
+                <td class="p-3">
+                  <div class="font-bold text-slate-900">עריכת פודקאסט - פרק #4 מלא</div>
+                  <div class="text-[11px] text-slate-500">מתוך: הפקת פודקאסט מצולם (D-1021)</div>
+                </td>
+                <td class="p-3">
+                  <div class="font-semibold text-slate-800">מיכל שביט</div>
+                  <div class="text-[10px] text-slate-400 font-mono">משרד עו״ד · CM-88102</div>
+                </td>
+                <td class="p-3">
+                  <span class="inline-flex items-center gap-1 font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+                    <span>🎧 עורך: איתי</span>
+                  </span>
+                </td>
+                <td class="p-3">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                    ממתין לבדיקת לקוח
+                  </span>
+                </td>
+                <td class="p-3 font-mono text-slate-600">סבב 1 (מתוך 2)</td>
+                <td class="p-3 text-slate-600">10/10/2026</td>
+                <td class="p-3 text-left">
+                  <div class="flex items-center justify-end gap-2">
+                    <a href="#" class="px-2 py-1 text-[11px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded">לינק צפייה</a>
+                    <button type="button" class="px-2.5 py-1 text-[11px] font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded">תזכורת</button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Deliverable 3 -->
+              <tr class="hover:bg-slate-50/70 transition-colors">
+                <td class="p-3">
+                  <div class="font-bold text-slate-900">גלריית 30 תמונות מעובדות</div>
+                  <div class="text-[11px] text-slate-500">מתוך: יום צילום תדמית (D-1018)</div>
+                </td>
+                <td class="p-3">
+                  <div class="font-semibold text-slate-800">יוסי אליהו</div>
+                  <div class="text-[10px] text-slate-400 font-mono">אליהו נדל״ן · CM-91040</div>
+                </td>
+                <td class="p-3">
+                  <span class="inline-flex items-center gap-1 font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+                    <span>📷 צלם/רטוש: אלון</span>
+                  </span>
+                </td>
+                <td class="p-3">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                    אושר סופית - מוכן למסירה
+                  </span>
+                </td>
+                <td class="p-3 font-mono text-emerald-700 font-bold">הושלם ✓</td>
+                <td class="p-3 text-emerald-600 font-semibold">נמסר היום</td>
+                <td class="p-3 text-left">
+                  <div class="flex items-center justify-end gap-2">
+                    <button type="button" class="px-2.5 py-1 text-[11px] font-bold text-emerald-800 bg-emerald-100 rounded">שלח סופי ללקוח</button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span>מציג 3 מתוך 18 תוצרים פעילים</span>
+          <a href="#" class="font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+            <span>צפה בכל לוח התוצרים המלא (Kanban & Table)</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+      <!-- 5. TWO COLUMNS: UPCOMING SHOOTS & RECENT QUOTES                              -->
+      <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Column 1: Studio Schedule & Shoots (ימי צילום קרובים בסטודיו) -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </span>
+              <h3 class="font-bold text-sm text-slate-900">ימי צילום קרובים בסטודיו</h3>
+            </div>
+            <span class="text-xs text-slate-400">לוח שבועי</span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Shoot 1 (Today) -->
+            <div class="p-3 rounded-lg border border-indigo-100 bg-indigo-50/30 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="text-center px-2.5 py-1 rounded bg-indigo-600 text-white font-bold text-xs">
+                  <div>היום</div>
+                  <div class="text-[10px] font-mono">14:00</div>
+                </div>
+                <div>
+                  <h4 class="font-bold text-xs text-slate-900">צילום 5 סרטוני רילס - דניאל רוזן</h4>
+                  <p class="text-[11px] text-slate-500">אולפן ראשי · 2 שעות צילום · צלם: אלון</p>
+                </div>
+              </div>
+              <span class="text-[11px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">מאושר</span>
+            </div>
+
+            <!-- Shoot 2 (Tomorrow) -->
+            <div class="p-3 rounded-lg border border-slate-200 bg-slate-50/50 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="text-center px-2.5 py-1 rounded bg-slate-200 text-slate-700 font-bold text-xs">
+                  <div>מחר</div>
+                  <div class="text-[10px] font-mono">10:00</div>
+                </div>
+                <div>
+                  <h4 class="font-bold text-xs text-slate-900">צילום פודקאסט פרק #5 - מיכל שביט</h4>
+                  <p class="text-[11px] text-slate-500">אולפן פודקאסט · 3 מצלמות · מפעיל: תומר</p>
+                </div>
+              </div>
+              <span class="text-[11px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded">ממתין לשעה</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Recent Quotes & Digital Signatures (הצעות מחיר ומעקב חתימות) -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-sky-50 text-sky-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </span>
+              <h3 class="font-bold text-sm text-slate-900">הצעות מחיר אחרונות ומעקב חתימה</h3>
+            </div>
+            <a href="quote_builder_mockup.html" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold">+ הצעה חדשה</a>
+          </div>
+
+          <div class="space-y-3">
+            <!-- Quote 1 -->
+            <div class="p-3 rounded-lg border border-slate-200 flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-bold text-indigo-600">Q-1048</span>
+                  <span class="font-bold text-xs text-slate-900">דניאל רוזן (רוזן תוכנה)</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">
+                  חבילת 5 רילס · סה״כ: ₪5,310 כולל מע״מ
+                </div>
+              </div>
+              <div class="text-left flex items-center gap-2">
+                <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">נשלחה לחתימה</span>
+                <button type="button" onclick="alert('קישור החתימה הועתק לשליחה בוואטסאפ!')" class="p-1 text-slate-400 hover:text-indigo-600" title="העתק קישור וואטסאפ">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quote 2 -->
+            <div class="p-3 rounded-lg border border-slate-200 flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-bold text-indigo-600">Q-1047</span>
+                  <span class="font-bold text-xs text-slate-900">מיכל שביט (עו״ד שביט)</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">
+                  הפקת פודקאסט 3 פרקים · סה״כ: ₪8,400 כולל מע״מ
+                </div>
+              </div>
+              <div class="text-left flex items-center gap-2">
+                <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">נחתמה ✓</span>
+                <span class="text-[10px] text-slate-400">נפתחה עסקה D-1021</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>
